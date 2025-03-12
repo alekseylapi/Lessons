@@ -1,0 +1,14 @@
+{
+    "name": "alekseylapi/lessons",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Alekseylapi\\Lessons\\": "src/"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^7.9",
+        "symfony/console": "^7.2",
+        "php": ">=8.2"
+    }
+}
