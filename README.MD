@@ -6,4 +6,3 @@ docker-compose run app sh
 composer install
 ```
 new-pull-request 
-rqer
