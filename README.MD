@@ -5,4 +5,4 @@ docker-compose build
 docker-compose run app sh
 composer install
 ```
-new pull request 
+new-pull-request 
