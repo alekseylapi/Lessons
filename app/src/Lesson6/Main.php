@@ -2,6 +2,9 @@
 
 namespace Alekseylapi\Lessons\Lesson6;
 
+use Alekseylapi\Lessons\Models\Dog;
+use Alekseylapi\Lessons\Models\Master;
+
 class Main
 {
     public static function handle()
@@ -156,5 +159,15 @@ class Main
 
         var_dump($dog1->isOlder($dog2));
 //        echo $dog1->somePrivateFunction(), PHP_EOL;
+    }
+
+    public static function homework(): void
+    {
+        $master1 = new Master(
+            'Иванов Иван Иванович',
+            '1980-01-01',
+            '1234567890',
+            ['Бобик', 'Шарик']
+        );
     }
 }
