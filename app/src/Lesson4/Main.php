@@ -202,10 +202,10 @@ class Main
 //12345
 // реализация как в таск 12
 
-    public static function task13( int $number) : int
+    public static function task13(int $number): int
     {
         $reversed = 0;
-        while ($number !==0){
+        while ($number !== 0) {
             $lastDigit = $number % 10;
             $reversed = $reversed * 10 + $lastDigit;
             $number = (int)($number / 10);
