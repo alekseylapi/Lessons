@@ -159,8 +159,8 @@ class Main
         if ($number == 0) {
             return 1;
         }
-        while ($number !== 0){
-            $count ++;
+        while ($number !== 0) {
+            $count++;
             $number = (int)($number / 10);
         }
         return $count;
@@ -202,16 +202,15 @@ class Main
 //12345
 // реализация как в таск 12
 
-    public static function task13(int $number) : int
+    public static function task13(int $number): int
     {
-        $revers = 0;
-        $numDigits = self::digitsCount($number);
-        for ($i = 0; $i < $numDigits; $i++) {
-            $digit = self::task11($number, $i);
-            $revers = $revers * 10 + $digit; // Добавляем её к результату
+        $reversed = 0;
+        while ($number !== 0) {
+            $lastDigit = $number % 10;
+            $reversed = $reversed * 10 + $lastDigit;
+            $number = (int)($number / 10);
         }
-
-        return $revers;
+        return $reversed;
     }
 
 }
