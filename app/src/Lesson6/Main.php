@@ -163,6 +163,7 @@ class Main
 
     public static function homework(): void
     {
+        // В массиве собак использовать класс Dog
         $master1 = new Master(
             'Иванов Иван Иванович',
             '1980-01-01',
