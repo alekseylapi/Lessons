@@ -22,11 +22,50 @@ class HomeWork
         return new Master('Петя Петров', '1990-08-20', '+79876543210', [$dog3, $dog4, $dog5]);
     }
 
+//2) Написать функцию, которая выводит информацию по всем собака хозяина(которого передали через параметр)
     public static function printDogsInfo(Master $master): void
     {
-        echo "Собаки хозяина {$master->name}:\n";
+        echo "Собаки хозяина {$master->name}:" . PHP_EOL;
         foreach ($master->pets as $dog) {
-            echo "- Имя: {$dog->name}, Порода: {$dog->breed}, Возраст: {$dog->getAge()} лет, Говорит: {$dog->say()}\n";
+            echo "- Имя: {$dog->name}, Порода: {$dog->breed}, Возраст: {$dog->getAge()} лет, Говорит: {$dog->say()}" . PHP_EOL;
         }
+    }
+
+// 3) Написать функцию, которая выводит информацию по всех хозяинам(которых передали через параметр)
+    public static function printMastersInfo(array $masters): void
+    {
+        foreach ($masters as $master) {
+            echo "Хозяин: {$master->name}, Дата рождения: {$master->birthday}, Телефон: {$master->phone}" . PHP_EOL;
+        }
+    }
+
+//4) Написать функцию, которая выводит информацию о Хозяине(по переданной собаке)
+    public static function findMasterByDog(Dog $dog, array $masters): ?Master
+    {
+        foreach ($masters as $master) {
+            if (in_array($dog, $master->pets, true)) {
+                return $master;
+            }
+        }
+        return null;
+    }
+
+//5) Написать функцию, которая выводит информацию о всех остальных собаках Хозяина(по переданной собаке)
+    public static function printOtherDogs(Master $master, Dog $dog): void
+    {
+        echo "Остальные собаки хозяина {$master->name}:" . PHP_EOL;
+        foreach ($master->pets as $pet) {
+            if ($pet !== $dog) {
+                echo "- Имя: {$pet->name}, Порода: {$pet->breed}, Возраст: {$pet->getAge()} лет" . PHP_EOL;
+            }
+        }
+    }
+
+//6) Написать функцию передачи собаки от одного Хозяина к другому
+    public static function transferDog(Dog $dog, Master $from, Master $to): void
+    {
+        $from->pets = array_filter($from->pets, fn($pet) => $pet !== $dog);
+        $to->pets[] = $dog;
+        echo "Собака {$dog->name} передана от {$from->name} к {$to->name}." . PHP_EOL;
     }
 }
