@@ -65,6 +65,7 @@ class HomeWork
         }
     }
 
+
 //6) Написать функцию передачи собаки от одного Хозяина к другому
     public static function transferDog(Pet $pet, Master $to): void
     {
