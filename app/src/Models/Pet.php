@@ -8,7 +8,7 @@ abstract class Pet
     protected \DateTimeImmutable $birthday;
     public string $breed;
     public string $sex;
-    public string $master;
+    public Master $master;
     public string $color;
 
     public function __construct(
@@ -16,7 +16,7 @@ abstract class Pet
         string $birthday,
         string $breed,
         string $sex,
-        string $master,
+        Master $master,
         string $color = 'brown',
     ) {
         $this->name = $name;
