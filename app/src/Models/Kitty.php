@@ -21,4 +21,9 @@ class Kitty extends Cat
             $color,
         );
     }
+
+    public function say(): string
+    {
+        return "me";
+    }
 }
