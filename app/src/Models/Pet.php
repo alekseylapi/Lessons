@@ -8,7 +8,7 @@ abstract class Pet
     protected \DateTimeImmutable $birthday;
     public string $breed;
     public string $sex;
-    public Master $master;
+    private ?Master $master = null;
     public string $color;
 
     public function __construct(
@@ -16,14 +16,12 @@ abstract class Pet
         string $birthday,
         string $breed,
         string $sex,
-        Master $master,
         string $color = 'brown',
     ) {
         $this->name = $name;
         $this->birthday = new \DateTimeImmutable($birthday);
         $this->breed = $breed;
         $this->sex = $sex;
-        $this->master = $master;
         $this->color = $color;
     }
 
@@ -35,6 +33,27 @@ abstract class Pet
     public function getAge(): int
     {
         return $this->birthday->diff(new \DateTime())->y;
+    }
+
+    public function getMaster(): Master
+    {
+        return $this->master;
+    }
+
+    public function setMaster(?Master $newMaster): void
+    {
+        if ($this->master === $newMaster) {
+            return ;
+        }
+
+        $oldMaster = $this->master;
+        if ($oldMaster !== null) {
+            $oldMaster->removePet($this);
+        }
+        $this->master = $newMaster;
+        if ($this->master !== null) {
+            $this->master->addPet($this);
+        }
     }
 
     abstract public function say(): string;
