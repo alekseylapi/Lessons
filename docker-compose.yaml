@@ -5,3 +5,15 @@ services:
       context: ./
     volumes:
       - ./app:/app
+  db:
+    image: mysql:8.0.25
+    restart: on-failure
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: "lessons"
+      MYSQL_USER: "lessons_user"
+      MYSQL_PASSWORD: "lessons_pass"
+      MYSQL_ROOT_PASSWORD: "rootpass"
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql
