@@ -7,7 +7,7 @@ CREATE TABLE products
     price      DECIMAL(10, 2) NOT NULL,
     quantity   INT            NOT NULL,
     added_date DATE           NOT NULL,
-    category   VARCHAR('газированная вода', 'мясо', 'бакалея') NOT NULL
+    category   VARCHAR(255)   NOT NULL
 );
 
 -- 2. Найти все товары с ценой от 100 до 500
@@ -100,12 +100,18 @@ GROUP BY category
 ORDER BY last_added_date ASC LIMIT 1;
 
 --18 в таблице товаров для каджого товара найти количество других товаров, которые дороже
-SELECT p1.name,
+SELECT p1.id,
+       p1.name,
        p1.price,
-       (SELECT COUNT(*)
-        FROM products p2
-        WHERE p2.price > p1.price) AS more_expensive_count
-FROM products p1;
+       COUNT(p2.id) AS more_expensive_count
+FROM products AS p1
+         LEFT JOIN products AS p2
+                   ON p2.price > p1.price
+GROUP BY p1.id,
+         p1.name,
+         p1.price
+ORDER BY p1.id;
+
 
 -- создание таблицы связанной
 CREATE TABLE categories
@@ -134,54 +140,65 @@ WHERE c.name = 'мясо'
 ORDER BY p.price DESC LIMIT 1;
 
 --13) Найти самый дешёвый и самый дорогой товар в каждой категории:
-SELECT
-    c.name AS category_name,
-    MIN(p.price) AS min_price,
-    MAX(p.price) AS max_price
-FROM
-    products p
-        JOIN
-    categories c ON p.category_id = c.id
-GROUP BY
-    c.name;
+SELECT c.name       AS category_name,
+       MIN(p.price) AS min_price,
+       MAX(p.price) AS max_price
+FROM products p
+         JOIN
+     categories c ON p.category_id = c.id
+GROUP BY c.name;
 -- 14)Посчитать количество товаров и остатки (в штуках и рублях) по каждой категории:
-SELECT
-    c.name AS category_name,
-    COUNT(p.id) AS total_products,
-    SUM(p.quantity) AS total_quantity,
-    SUM(p.price * p.quantity) AS total_value_in_rubles
-FROM
-    products p
-        JOIN
-    categories c ON p.category_id = c.id
-GROUP BY
-    c.name;
+SELECT c.name                    AS category_name,
+       COUNT(p.id)               AS total_products,
+       SUM(p.quantity)           AS total_quantity,
+       SUM(p.price * p.quantity) AS total_value
+FROM categories c
+         LEFT JOIN products p
+                   ON p.category_id = c.id
+GROUP BY c.name
+ORDER BY c.name;
+
+
 -- 15) Посчитать количество товаров и остатки (в штуках и рублях) по каждой категории:
-SELECT
-    c.name AS category_name,
-    COUNT(p.id) AS total_products,
-    SUM(p.quantity) AS total_quantity,
-    SUM(p.price * p.quantity) AS total_value_in_rubles
-FROM
-    products p
-        JOIN
-    categories c ON p.category_id = c.id
-GROUP BY
-    c.name;
+SELECT c.name                    AS category_name,
+       COUNT(p.id)               AS total_products,
+       SUM(p.quantity)           AS total_quantity,
+       SUM(p.price * p.quantity) AS total_value_in_rubles
+FROM products p
+         JOIN
+     categories c ON p.category_id = c.id
+GROUP BY c.name;
 
 --15) Найти категорию с самым дорогим товаром:
-SELECT
-    c.name AS category_name,
-    MAX(p.price) AS max_price
-FROM
-    products p
-        JOIN
-    categories c ON p.category_id = c.id
-GROUP BY
-    c.name
-ORDER BY
-    max_price DESC
-    LIMIT 1;
+SELECT c.name       AS category_name,
+       MAX(p.price) AS max_price
+FROM products p
+         JOIN
+     categories c ON p.category_id = c.id
+GROUP BY c.name
+ORDER BY max_price DESC LIMIT 1;
+
+-- 16)найти самую дорогую категорию (с самой большой средней ценой товара)
+SELECT c.id,
+       c.name,
+       AVG(p.price) AS avg_price
+FROM categories AS c
+         JOIN products AS p
+              ON p.category_id = c.id
+GROUP BY c.id,
+         c.name
+ORDER BY avg_price DESC LIMIT 1;
+
+-- 17) найти категорию в которую давно ничего не добавляли (с самой меньшей датой добавления)
+SELECT c.id,
+       c.name,
+       MAX(p.added_date) AS last_added_date
+FROM categories AS c
+         LEFT JOIN products AS p
+                   ON p.category_id = c.id
+GROUP BY c.id,
+         c.name
+ORDER BY last_added_date ASC LIMIT 1;
 
 
 -- Добавление товаров категории "газированная вода"
