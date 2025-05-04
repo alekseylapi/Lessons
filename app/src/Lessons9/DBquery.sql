@@ -6,7 +6,7 @@ CREATE TABLE products
     name       VARCHAR(255)   NOT NULL,
     price      DECIMAL(10, 2) NOT NULL,
     quantity   INT            NOT NULL,
-    added_date DATE           NOT NULL,
+    added_date DATETIME       NOT NULL,
     category   VARCHAR(255)   NOT NULL
 );
 
